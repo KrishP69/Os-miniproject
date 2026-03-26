@@ -1,3 +1,45 @@
+// Theme Toggle Functionality
+function initializeTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+}
+
+function setTheme(theme) {
+    const html = document.documentElement;
+    if (theme === 'dark') {
+        html.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        updateThemeIcon('☀️');
+    } else {
+        html.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+        updateThemeIcon('🌙');
+    }
+}
+
+function updateThemeIcon(icon) {
+    const themeIcon = document.querySelector('.theme-icon');
+    if (themeIcon) {
+        themeIcon.textContent = icon;
+    }
+}
+
+function toggleTheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme') || 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+}
+
+// Initialize theme on page load
+document.addEventListener('DOMContentLoaded', () => {
+    initializeTheme();
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+});
+
 // Global variables
 let numProcesses = 3;
 let numResources = 3;
