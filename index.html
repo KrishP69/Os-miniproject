@@ -79,6 +79,25 @@
                 <div class="about-text">
                     <h3>What is a Deadlock?</h3>
                     <p>A deadlock is a situation in operating systems where multiple processes are blocked indefinitely, each waiting for resources held by other processes to be released. This creates a circular dependency that prevents any of the processes from progressing.</p>
+                    <p>In simple terms, think of two people each holding one key and waiting for the other key to open their own lock. Since neither person releases what they hold, both remain stuck forever. Computer processes can fall into the same pattern when resources are locked in conflicting order.</p>
+
+                    <h3 class="mt-3">Real-World Example</h3>
+                    <p>In a database system, deadlock commonly appears when:</p>
+                    <ul class="conditions-list">
+                        <li>Transaction A locks Table X and requests Table Y</li>
+                        <li>Transaction B locks Table Y and requests Table X</li>
+                        <li>Both transactions keep waiting for each other to release locks</li>
+                        <li>Neither transaction can complete without external intervention</li>
+                    </ul>
+
+                    <h3 class="mt-3">Why Deadlocks Are Dangerous</h3>
+                    <p>Deadlocks reduce system reliability and performance in production workloads.</p>
+                    <ul class="conditions-list">
+                        <li><strong>Service Delay:</strong> Requests get stuck and response times increase sharply</li>
+                        <li><strong>Throughput Loss:</strong> CPU and memory are occupied by blocked tasks</li>
+                        <li><strong>Transaction Failure:</strong> Work must be rolled back to recover</li>
+                        <li><strong>User Impact:</strong> Applications appear frozen or unavailable</li>
+                    </ul>
                     
                     <h3 class="mt-3">The Four Necessary Conditions</h3>
                     <p>A deadlock can only occur when all four conditions are present simultaneously:</p>
@@ -88,9 +107,8 @@
                         <li><strong>No Preemption:</strong> Resources cannot be forcibly taken from processes</li>
                         <li><strong>Circular Wait:</strong> A circular chain of processes exists, each waiting for resources held by the next</li>
                     </ul>
-                </div>
-                <div class="about-image">
-                    <img src="deadlock-concept.svg" alt="Deadlock Concept" class="about-img">
+
+                    <p>Breaking even one of these conditions is enough to prevent deadlock. Practical systems combine prevention rules, timeout-based detection, and recovery actions such as rollback or process termination.</p>
                 </div>
             </div>
 
