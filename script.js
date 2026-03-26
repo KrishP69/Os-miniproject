@@ -1,7 +1,13 @@
 // Theme Toggle Functionality
 function initializeTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    setTheme(savedTheme);
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || savedTheme === 'light') {
+        setTheme(savedTheme);
+        return;
+    }
+
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(prefersDark ? 'dark' : 'light');
 }
 
 function setTheme(theme) {
@@ -11,7 +17,7 @@ function setTheme(theme) {
         localStorage.setItem('theme', 'dark');
         updateThemeIcon('☀️');
     } else {
-        html.removeAttribute('data-theme');
+        html.setAttribute('data-theme', 'light');
         localStorage.setItem('theme', 'light');
         updateThemeIcon('🌙');
     }
@@ -26,7 +32,7 @@ function updateThemeIcon(icon) {
 
 function toggleTheme() {
     const html = document.documentElement;
-    const currentTheme = html.getAttribute('data-theme') || 'light';
+    const currentTheme = html.getAttribute('data-theme') || localStorage.getItem('theme') || 'light';
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
 }
