@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <style>
+      .bg { fill: #1a1f2e; }
+      .text-title { font-size: 24px; font-weight: bold; fill: #0e7490; font-family: Arial, sans-serif; }
+      .text-label { font-size: 13px; font-weight: bold; fill: #ffffff; font-family: Arial, sans-serif; }
+      .text-desc { font-size: 11px; fill: #cbd5e1; font-family: Arial, sans-serif; }
+      .box-border { stroke-width: 2; fill: none; }
+      .condition-box { fill: rgba(14, 116, 144, 0.15); }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect class="bg" width="1200" height="675"/>
+  
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" class="text-title">Four Necessary Deadlock Conditions</text>
+  
+  <!-- Condition 1: Mutual Exclusion -->
+  <g>
+    <rect x="50" y="100" width="250" height="200" class="condition-box box-border" stroke="#0e7490" rx="8"/>
+    <circle cx="175" cy="130" r="30" fill="none" stroke="#0e7490" stroke-width="2"/>
+    <text x="175" y="135" text-anchor="middle" class="text-label">R1</text>
+    <text x="175" y="170" text-anchor="middle" class="text-label">Mutual Exclusion</text>
+    <text x="175" y="190" text-anchor="middle" class="text-desc">Resources cannot</text>
+    <text x="175" y="205" text-anchor="middle" class="text-desc">be shared</text>
+    <text x="175" y="225" text-anchor="middle" class="text-desc">Only one process</text>
+    <text x="175" y="240" text-anchor="middle" class="text-desc">can hold it</text>
+    <circle cx="175" cy="270" r="5" fill="#0e7490"/>
+  </g>
+  
+  <!-- Condition 2: Hold and Wait -->
+  <g>
+    <rect x="350" y="100" width="250" height="200" class="condition-box box-border" stroke="#4ecdc4" rx="8"/>
+    <circle cx="475" cy="130" r="30" fill="none" stroke="#4ecdc4" stroke-width="2"/>
+    <text x="475" y="135" text-anchor="middle" class="text-label">R2</text>
+    <text x="475" y="170" text-anchor="middle" class="text-label">Hold & Wait</text>
+    <text x="475" y="190" text-anchor="middle" class="text-desc">Process holds</text>
+    <text x="475" y="205" text-anchor="middle" class="text-desc">resources while</text>
+    <text x="475" y="220" text-anchor="middle" class="text-desc">waiting for</text>
+    <text x="475" y="235" text-anchor="middle" class="text-desc">additional ones</text>
+    <circle cx="475" cy="270" r="5" fill="#4ecdc4"/>
+  </g>
+  
+  <!-- Condition 3: No Preemption -->
+  <g>
+    <rect x="650" y="100" width="250" height="200" class="condition-box box-border" stroke="#f39c12" rx="8"/>
+    <circle cx="775" cy="130" r="30" fill="none" stroke="#f39c12" stroke-width="2"/>
+    <text x="775" y="135" text-anchor="middle" class="text-label">R3</text>
+    <text x="775" y="170" text-anchor="middle" class="text-label">No Preemption</text>
+    <text x="775" y="190" text-anchor="middle" class="text-desc">Resources cannot</text>
+    <text x="775" y="205" text-anchor="middle" class="text-desc">be forcibly taken</text>
+    <text x="775" y="220" text-anchor="middle" class="text-desc">Only released by</text>
+    <text x="775" y="235" text-anchor="middle" class="text-desc">holding process</text>
+    <circle cx="775" cy="270" r="5" fill="#f39c12"/>
+  </g>
+  
+  <!-- Condition 4: Circular Wait -->
+  <g>
+    <rect x="950" y="100" width="200" height="200" class="condition-box box-border" stroke="#e74c3c" rx="8"/>
+    <circle cx="1050" cy="130" r="30" fill="none" stroke="#e74c3c" stroke-width="2"/>
+    <text x="1050" y="135" text-anchor="middle" class="text-label">P→R</text>
+    <text x="1050" y="170" text-anchor="middle" class="text-label">Circular Wait</text>
+    <text x="1050" y="190" text-anchor="middle" class="text-desc">Chain of</text>
+    <text x="1050" y="205" text-anchor="middle" class="text-desc">processes each</text>
+    <text x="1050" y="220" text-anchor="middle" class="text-desc">waiting for</text>
+    <text x="1050" y="235" text-anchor="middle" class="text-desc">next resource</text>
+    <circle cx="1050" cy="270" r="5" fill="#e74c3c"/>
+  </g>
+  
+  <!-- Deadlock Cycle Visualization -->
+  <g>
+    <rect x="100" y="350" width="1000" height="280" fill="rgba(14, 116, 144, 0.08)" stroke="#0e7490" stroke-width="2" rx="8"/>
+    
+    <text x="600" y="380" text-anchor="middle" class="text-title">Deadlock Circular Wait Cycle</text>
+    
+    <!-- Process P1 -->
+    <rect x="150" y="420" width="120" height="80" fill="rgba(14, 116, 144, 0.3)" stroke="#0e7490" stroke-width="2" rx="4"/>
+    <text x="210" y="450" text-anchor="middle" class="text-label">Process P1</text>
+    <text x="210" y="475" text-anchor="middle" class="text-desc">Holds R1</text>
+    <text x="210" y="490" text-anchor="middle" class="text-desc">Wants R2</text>
+    
+    <!-- Arrow P1 to R2 -->
+    <path d="M 270 460 L 350 460" stroke="#0e7490" stroke-width="2" fill="none" marker-end="url(#arrowblue)"/>
+    
+    <!-- Resource R2 -->
+    <circle cx="400" cy="460" r="50" fill="rgba(78, 205, 196, 0.3)" stroke="#4ecdc4" stroke-width="2"/>
+    <text x="400" y="465" text-anchor="middle" class="text-label">R2</text>
+    
+    <!-- Arrow R2 to P2 -->
+    <path d="M 420" y="410" L 500 410" stroke="#4ecdc4" stroke-width="2" fill="none" marker-end="url(#arrowteal)"/>
+    
+    <!-- Process P2 -->
+    <rect x="500" y="370" width="120" height="80" fill="rgba(78, 205, 196, 0.3)" stroke="#4ecdc4" stroke-width="2" rx="4"/>
+    <text x="560" y="400" text-anchor="middle" class="text-label">Process P2</text>
+    <text x="560" y="425" text-anchor="middle" class="text-desc">Holds R2</text>
+    <text x="560" y="440" text-anchor="middle" class="text-desc">Wants R3</text>
+    
+    <!-- Arrow P2 to R3 -->
+    <path d="M 620 410 L 700 410" stroke="#f39c12" stroke-width="2" fill="none" marker-end="url(#arrowyellow)"/>
+    
+    <!-- Resource R3 -->
+    <circle cx="750" cy="410" r="50" fill="rgba(243, 156, 18, 0.3)" stroke="#f39c12" stroke-width="2"/>
+    <text x="750" y="415" text-anchor="middle" class="text-label">R3</text>
+    
+    <!-- Arrow R3 back to P1 -->
+    <path d="M 720 460 L 210 520 Q 400 580 210 520" stroke="#e74c3c" stroke-width="2" fill="none" marker-end="url(#arrowred)"/>
+    
+    <!-- Center text -->
+    <text x="600" y="560" text-anchor="middle" class="text-label" style="fill: #e74c3c;">DEADLOCK!</text>
+    <text x="600" y="590" text-anchor="middle" class="text-desc">All processes waiting indefinitely</text>
+  </g>
+  
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowblue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#0e7490" />
+    </marker>
+    <marker id="arrowteal" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#4ecdc4" />
+    </marker>
+    <marker id="arrowyellow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#f39c12" />
+    </marker>
+    <marker id="arrowred" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#e74c3c" />
+    </marker>
+  </defs>
+</svg>
