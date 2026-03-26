@@ -414,8 +414,8 @@ label {
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    background: var(--surface-strong);
-    color: #1e293b;
+    background: var(--accent);
+    color: #ffffff;
     font-weight: 700;
 }
 
