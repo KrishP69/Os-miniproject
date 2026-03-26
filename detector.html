@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deadlock Detector - Analysis Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Deadlock Detection Tool</h1>
+            <p>Enter your system configuration to detect deadlocks</p>
+            <a href="index.html" class="back-link">← Back to Home</a>
+        </div>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h2>System Configuration</h2>
+                
+                <div class="form-group">
+                    <label for="numProcesses">Number of Processes:</label>
+                    <input type="number" id="numProcesses" min="1" max="10" value="3">
+                </div>
+
+                <div class="form-group">
+                    <label for="numResources">Number of Resources:</label>
+                    <input type="number" id="numResources" min="1" max="10" value="3">
+                </div>
+
+                <button class="btn btn-secondary" onclick="generateMatrices()">Generate Input Fields</button>
+
+                <div id="matrices-container" style="display:none;">
+                    <!-- Allocation Matrix -->
+                    <div class="matrix-section">
+                        <h3>Allocation Matrix (Current Resource Allocation)</h3>
+                        <div id="allocationMatrix"></div>
+                    </div>
+
+                    <!-- Maximum Matrix -->
+                    <div class="matrix-section">
+                        <h3>Maximum Matrix (Maximum Resources Needed)</h3>
+                        <div id="maximumMatrix"></div>
+                    </div>
+
+                    <!-- Available Resources -->
+                    <div class="matrix-section">
+                        <h3>Available Resources</h3>
+                        <div id="availableResources"></div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="analyzeDeadlock()">Analyze for Deadlock</button>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results-section" style="display:none;" class="results-section">
+                <h2>Analysis Results</h2>
+                
+                <div id="status-card" class="card status-card"></div>
+                
+                <div id="safe-sequence-card" style="display:none;" class="card">
+                    <h3>Safe Sequence Found</h3>
+                    <p id="safe-sequence"></p>
+                </div>
+
+                <div id="remaining-resources-card" style="display:none;" class="card">
+                    <h3>Remaining Resources</h3>
+                    <div id="remaining-resources"></div>
+                </div>
+
+                <div id="process-details-card" style="display:none;" class="card">
+                    <h3>Process Details</h3>
+                    <div id="process-details"></div>
+                </div>
+
+                <div id="deadlock-processes-card" style="display:none;" class="card deadlock-card">
+                    <h3>Processes in Deadlock</h3>
+                    <p id="deadlock-processes"></p>
+                </div>
+
+                <button class="btn btn-secondary" onclick="resetForm()">Analyze Again</button>
+            </div>
+        </div>        <footer class="footer">
+            <p>Designed by Me</p>
+        </footer>    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
