@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <defs>
+    <linearGradient id="f1grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a3a52;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d2438;stop-opacity:1" />
+    </linearGradient>
+    <filter id="f1shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="4" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  
+  <rect width="300" height="300" fill="url(#f1grad)"/>
+  
+  <!-- Analytics Dashboard -->
+  <rect x="30" y="40" width="240" height="220" fill="rgba(255,255,255,0.05)" stroke="#0e7490" stroke-width="2" rx="8"/>
+  
+  <!-- Title -->
+  <text x="150" y="65" text-anchor="middle" fill="#0e7490" font-size="13" font-weight="bold">REAL-TIME METRICS</text>
+  
+  <!-- Chart bars -->
+  <rect x="50" y="110" width="25" height="80" fill="#4ecdc4" opacity="0.8" rx="3"/>
+  <rect x="90" y="95" width="25" height="95" fill="#0e7490" opacity="0.8" rx="3"/>
+  <rect x="130" y="75" width="25" height="115" fill="#4ecdc4" opacity="0.8" rx="3"/>
+  <rect x="170" y="85" width="25" height="105" fill="#0e7490" opacity="0.8" rx="3"/>
+  <rect x="210" y="100" width="25" height="90" fill="#4ecdc4" opacity="0.8" rx="3"/>
+  
+  <!-- Baseline -->
+  <line x1="40" y1="195" x2="260" y2="195" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  
+  <!-- Values -->
+  <text x="62" y="215" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="11">45%</text>
+  <text x="102" y="215" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="11">68%</text>
+  <text x="142" y="215" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="11">89%</text>
+  <text x="182" y="215" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="11">72%</text>
+  <text x="222" y="215" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="11">55%</text>
+  
+  <!-- Live indicator -->
+  <circle cx="270" cy="50" r="6" fill="#00ff00" opacity="0.8" filter="url(#f1shadow)"/>
+  <text x="270" y="275" text-anchor="middle" fill="#4ecdc4" font-size="12" font-weight="bold">LIVE</text>
+</svg>

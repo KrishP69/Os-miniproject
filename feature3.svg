@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <defs>
+    <linearGradient id="f3grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a3a52;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d2438;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="300" height="300" fill="url(#f3grad)"/>
+  
+  <!-- Title Bar -->
+  <rect x="20" y="15" width="260" height="35" fill="rgba(14,116,144,0.3)" stroke="#0e7490" stroke-width="1" rx="5"/>
+  <text x="150" y="38" text-anchor="middle" fill="#0e7490" font-size="12" font-weight="bold">RESOURCE ALLOCATION</text>
+  
+  <!-- CPU -->
+  <g>
+    <rect x="20" y="65" width="75" height="60" fill="rgba(78,205,196,0.2)" stroke="#4ecdc4" stroke-width="1.5" rx="4"/>
+    <text x="57" y="82" text-anchor="middle" fill="#4ecdc4" font-size="11" font-weight="bold">CPU</text>
+    <rect x="25" y="100" width="65" height="15" fill="rgba(180,180,180,0.3)" rx="2"/>
+    <rect x="25" y="100" width="49" height="15" fill="#4ecdc4" opacity="0.7" rx="2"/>
+    <text x="57" y="123" text-anchor="middle" fill="white" font-size="10">75%</text>
+  </g>
+  
+  <!-- RAM -->
+  <g>
+    <rect x="112" y="65" width="75" height="60" fill="rgba(52,152,219,0.2)" stroke="#3498db" stroke-width="1.5" rx="4"/>
+    <text x="149" y="82" text-anchor="middle" fill="#3498db" font-size="11" font-weight="bold">RAM</text>
+    <rect x="117" y="100" width="65" height="15" fill="rgba(180,180,180,0.3)" rx="2"/>
+    <rect x="117" y="100" width="57" height="15" fill="#3498db" opacity="0.7" rx="2"/>
+    <text x="149" y="123" text-anchor="middle" fill="white" font-size="10">88%</text>
+  </g>
+  
+  <!-- DISK -->
+  <g>
+    <rect x="204" y="65" width="75" height="60" fill="rgba(155,89,182,0.2)" stroke="#9b59b6" stroke-width="1.5" rx="4"/>
+    <text x="241" y="82" text-anchor="middle" fill="#9b59b6" font-size="11" font-weight="bold">DISK</text>
+    <rect x="209" y="100" width="65" height="15" fill="rgba(180,180,180,0.3)" rx="2"/>
+    <rect x="209" y="100" width="26" height="15" fill="#9b59b6" opacity="0.7" rx="2"/>
+    <text x="241" y="123" text-anchor="middle" fill="white" font-size="10">40%</text>
+  </g>
+  
+  <!-- Process boxes -->
+  <g>
+    <rect x="20" y="150" width="85" height="55" fill="rgba(14,116,144,0.25)" stroke="#0e7490" stroke-width="1.5" rx="4"/>
+    <text x="62" y="168" text-anchor="middle" fill="#0e7490" font-size="10" font-weight="bold">Process A</text>
+    <text x="62" y="195" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9">Using: CPU, RAM</text>
+  </g>
+  
+  <g>
+    <rect x="120" y="150" width="85" height="55" fill="rgba(79,144,112,0.25)" stroke="#4ecdc4" stroke-width="1.5" rx="4"/>
+    <text x="162" y="168" text-anchor="middle" fill="#4ecdc4" font-size="10" font-weight="bold">Process B</text>
+    <text x="162" y="195" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9">Using: DISK, RAM</text>
+  </g>
+  
+  <g>
+    <rect x="220" y="150" width="60" height="55" fill="rgba(243,156,18,0.25)" stroke="#f39c12" stroke-width="1.5" rx="4"/>
+    <text x="250" y="168" text-anchor="middle" fill="#f39c12" font-size="10" font-weight="bold">Free</text>
+    <rect x="230" y="180" width="40" height="15" fill="#f39c12" opacity="0.5" rx="2"/>
+    <text x="250" y="244" text-anchor="middle" fill="#f39c12" font-size="9">25%</text>
+  </g>
+  
+  <!-- Timeline at bottom -->
+  <line x1="20" y1="250" x2="280" y2="250" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <circle cx="50" cy="250" r="3" fill="#4ecdc4"/>
+  <circle cx="100" cy="250" r="3" fill="#3498db"/>
+  <circle cx="150" cy="250" r="3" fill="#9b59b6"/>
+  <circle cx="200" cy="250" r="3" fill="#4ecdc4"/>
+  <circle cx="250" cy="250" r="3" fill="#f39c12"/>
+</svg>

@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="aboutDarkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1f2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d1117;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="aboutAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0e7490;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f766e;stop-opacity:1" />
+    </linearGradient>
+    <filter id="aboutShadow">
+      <feDropShadow dx="4" dy="4" stdDeviation="8" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="600" fill="url(#aboutDarkGrad)"/>
+
+  <!-- Left: Database/System -->
+  <g filter="url(#aboutShadow)">
+    <!-- Database cylinder -->
+    <ellipse cx="150" cy="100" rx="50" ry="25" fill="none" stroke="#0e7490" stroke-width="2"/>
+    <rect x="100" y="100" width="100" height="180" fill="none" stroke="#0e7490" stroke-width="2"/>
+    <ellipse cx="150" cy="280" rx="50" ry="25" fill="none" stroke="#0e7490" stroke-width="2"/>
+    
+    <!-- Data lines -->
+    <line x1="110" y1="130" x2="190" y2="130" stroke="#4ecdc4" stroke-width="2" opacity="0.7"/>
+    <line x1="110" y1="170" x2="190" y2="170" stroke="#4ecdc4" stroke-width="2" opacity="0.7"/>
+    <line x1="110" y1="210" x2="185" y2="210" stroke="#4ecdc4" stroke-width="2" opacity="0.7"/>
+    <line x1="110" y1="250" x2="180" y2="250" stroke="#4ecdc4" stroke-width="2" opacity="0.7"/>
+  </g>
+
+  <!-- Center: Four Conditions in Boxes -->
+  <text x="600" y="50" text-anchor="middle" fill="#0e7490" font-size="24" font-weight="bold">Four Necessary Deadlock Conditions</text>
+
+  <g filter="url(#aboutShadow)">
+    <!-- 1. Mutual Exclusion -->
+    <rect x="70" y="120" width="130" height="140" fill="rgba(14,116,144,0.2)" stroke="#0e7490" stroke-width="2" rx="6"/>
+    <text x="135" y="145" text-anchor="middle" fill="#0e7490" font-size="13" font-weight="bold">1. Mutual</text>
+    <text x="135" y="165" text-anchor="middle" fill="#0e7490" font-size="13" font-weight="bold">Exclusion</text>
+    <text x="135" y="185" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="9">Resources held</text>
+    <text x="135" y="200" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="9">exclusively</text>
+    <circle cx="135" cy="235" r="6" fill="#0e7490" opacity="0.6"/>
+  </g>
+
+  <g filter="url(#aboutShadow)">
+    <!-- 2. Hold and Wait -->
+    <rect x="240" y="120" width="130" height="140" fill="rgba(78,205,196,0.2)" stroke="#4ecdc4" stroke-width="2" rx="6"/>
+    <text x="305" y="145" text-anchor="middle" fill="#4ecdc4" font-size="13" font-weight="bold">2. Hold &</text>
+    <text x="305" y="165" text-anchor="middle" fill="#4ecdc4" font-size="13" font-weight="bold">Wait</text>
+    <text x="305" y="185" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="9">Hold resources</text>
+    <text x="305" y="200" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="9">while waiting</text>
+    <circle cx="305" cy="235" r="6" fill="#4ecdc4" opacity="0.6"/>
+  </g>
+
+  <g filter="url(#aboutShadow)">
+    <!-- 3. No Preemption -->
+    <rect x="410" y="120" width="130" height="140" fill="rgba(243,156,18,0.2)" stroke="#f39c12" stroke-width="2" rx="6"/>
+    <text x="475" y="145" text-anchor="middle" fill="#f39c12" font-size="13" font-weight="bold">3. No</text>
+    <text x="475" y="165" text-anchor="middle" fill="#f39c12" font-size="13" font-weight="bold">Preemption</text>
+    <text x="475" y="185" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="9">Resources cannot</text>
+    <text x="475" y="200" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="9">be forcefully taken</text>
+    <circle cx="475" cy="235" r="6" fill="#f39c12" opacity="0.6"/>
+  </g>
+
+  <g filter="url(#aboutShadow)">
+    <!-- 4. Circular Wait -->
+    <rect x="580" y="120" width="130" height="140" fill="rgba(230,76,60,0.2)" stroke="#e74c3c" stroke-width="2" rx="6"/>
+    <text x="645" y="145" text-anchor="middle" fill="#e74c3c" font-size="13" font-weight="bold">4. Circular</text>
+    <text x="645" y="165" text-anchor="middle" fill="#e74c3c" font-size="13" font-weight="bold">Wait</text>
+    <text x="645" y="185" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="9">Cyclic chain</text>
+    <text x="645" y="200" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="9">of processes</text>
+    <circle cx="645" cy="235" r="6" fill="#e74c3c" opacity="0.6"/>
+  </g>
+
+  <!-- Right side: Banker's Algorithm -->
+  <text x="900" y="100" text-anchor="middle" fill="#0e7490" font-size="18" font-weight="bold">Banker's Algorithm</text>
+  
+  <g filter="url(#aboutShadow)">
+    <rect x="800" y="130" width="200" height="280" fill="rgba(14,116,144,0.1)" stroke="#0e7490" stroke-width="2" rx="8"/>
+    
+    <!-- Steps -->
+    <text x="815" y="155" fill="#4ecdc4" font-size="11" font-weight="bold">Step 1:</text>
+    <text x="815" y="170" fill="rgba(255,255,255,0.7)" font-size="9">Check available</text>
+    <text x="815" y="183" fill="rgba(255,255,255,0.7)" font-size="9">resources</text>
+    
+    <line x1="815" y1="195" x2="985" y2="195" stroke="rgba(14,116,144,0.3)" stroke-width="1"/>
+    
+    <text x="815" y="215" fill="#4ecdc4" font-size="11" font-weight="bold">Step 2:</text>
+    <text x="815" y="230" fill="rgba(255,255,255,0.7)" font-size="9">Find safe</text>
+    <text x="815" y="243" fill="rgba(255,255,255,0.7)" font-size="9">sequence</text>
+    
+    <line x1="815" y1="255" x2="985" y2="255" stroke="rgba(14,116,144,0.3)" stroke-width="1"/>
+    
+    <text x="815" y="275" fill="#4ecdc4" font-size="11" font-weight="bold">Step 3:</text>
+    <text x="815" y="290" fill="rgba(255,255,255,0.7)" font-size="9">Allocate safely</text>
+    <text x="815" y="303" fill="rgba(255,255,255,0.7)" font-size="9">or deny request</text>
+    
+    <line x1="815" y1="315" x2="985" y2="315" stroke="rgba(14,116,144,0.3)" stroke-width="1"/>
+    
+    <text x="815" y="335" fill="#f39c12" font-size="10" font-weight="bold">✓ Prevents</text>
+    <text x="815" y="350" fill="rgba(255,255,255,0.7)" font-size="9">unsafe resource</text>
+    <text x="815" y="363" fill="rgba(255,255,255,0.7)" font-size="9">allocation</text>
+  </g>
+
+  <!-- Bottom indicator -->
+  <rect x="350" y="500" width="500" height="70" fill="rgba(14,116,144,0.1)" stroke="#0e7490" stroke-width="2" rx="6"/>
+  <text x="600" y="530" text-anchor="middle" fill="#0e7490" font-size="13" font-weight="bold">All four conditions must be present for deadlock to occur</text>
+  <text x="600" y="550" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="11">Removing any one condition prevents deadlock</text>
+</svg>
