@@ -6,8 +6,8 @@ function initializeTheme() {
         return;
     }
 
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setTheme(prefersDark ? 'dark' : 'light');
+    // Default to dark mode on first visit.
+    setTheme('dark');
 }
 
 function setTheme(theme) {
