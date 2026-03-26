@@ -599,17 +599,16 @@ label {
 .hero-image {
     animation: slideInRight 0.8s ease-out;
     width: 100%;
-    height: 100%;
+    height: 450px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: stretch;
+    justify-content: stretch;
 }
 
 .hero-img {
     width: 100%;
-    height: auto;
-    min-height: 450px;
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover;
     border-radius: 16px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease;
@@ -763,9 +762,8 @@ label {
 
 .about-img {
     width: 100%;
-    height: auto;
-    min-height: 350px;
-    object-fit: contain;
+    height: 400px;
+    object-fit: cover;
     border-radius: 16px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
 }
