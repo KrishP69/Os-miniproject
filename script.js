@@ -142,47 +142,73 @@ function isSafeState() {
     const finish = Array(numProcesses).fill(false);
     const safeSequence = [];
 
-    for (let count = 0; count < numProcesses; count++) {
-        let found = false;
-
-        for (let i = 0; i < numProcesses; i++) {
-            if (!finish[i]) {
-                let canAllocate = true;
-
-                // Check if need[i] <= work
-                for (let j = 0; j < numResources; j++) {
-                    if (need[i][j] > work[j]) {
-                        canAllocate = false;
-                        break;
-                    }
-                }
-
-                if (canAllocate) {
-                    // Allocate resources
-                    for (let j = 0; j < numResources; j++) {
-                        work[j] += allocation[i][j];
-                    }
-                    finish[i] = true;
-                    safeSequence.push(i);
-                    found = true;
-                    break;
-                }
+    // Validate input: Maximum must be >= Allocation for every entry.
+    for (let i = 0; i < numProcesses; i++) {
+        for (let j = 0; j < numResources; j++) {
+            if (maximum[i][j] < allocation[i][j]) {
+                return {
+                    valid: false,
+                    message: 'Invalid Input',
+                    safe: false,
+                    safeSequence: [],
+                    unfinishedProcesses: [],
+                    work,
+                    finish
+                };
             }
-        }
-
-        if (!found) {
-            // Deadlock detected - return unfinished processes
-            const deadlockedProcesses = [];
-            for (let i = 0; i < numProcesses; i++) {
-                if (!finish[i]) {
-                    deadlockedProcesses.push(i);
-                }
-            }
-            return { safe: false, safeSequence: [], deadlockedProcesses, work };
         }
     }
 
-    return { safe: true, safeSequence, deadlockedProcesses: [], work };
+    let finishedCount = 0;
+    let progressed;
+
+    // Repeatedly scan all unfinished processes until no new process can run.
+    do {
+        progressed = false;
+
+        for (let i = 0; i < numProcesses; i++) {
+            if (finish[i]) {
+                continue;
+            }
+
+            let canExecute = true;
+            // Process can run only if Need[i] <= Available(work).
+            for (let j = 0; j < numResources; j++) {
+                if (need[i][j] > work[j]) {
+                    canExecute = false;
+                    break;
+                }
+            }
+
+            if (canExecute) {
+                // Release allocated resources after process execution.
+                for (let j = 0; j < numResources; j++) {
+                    work[j] += allocation[i][j];
+                }
+                finish[i] = true;
+                safeSequence.push(i);
+                finishedCount++;
+                progressed = true;
+            }
+        }
+    } while (progressed && finishedCount < numProcesses);
+
+    const unfinishedProcesses = [];
+    for (let i = 0; i < numProcesses; i++) {
+        if (!finish[i]) {
+            unfinishedProcesses.push(i);
+        }
+    }
+
+    return {
+        valid: true,
+        message: finishedCount === numProcesses ? 'SAFE STATE' : 'System is in unsafe state',
+        safe: finishedCount === numProcesses,
+        safeSequence,
+        unfinishedProcesses,
+        work,
+        finish
+    };
 }
 
 // Analyze for deadlock
@@ -197,6 +223,18 @@ function analyzeDeadlock() {
 
     // Status card
     const statusCard = document.getElementById('status-card');
+    if (!result.valid) {
+        statusCard.classList.remove('safe');
+        statusCard.classList.add('deadlock');
+        statusCard.innerHTML = result.message;
+        document.getElementById('safe-sequence-card').style.display = 'none';
+        document.getElementById('deadlock-processes-card').style.display = 'none';
+        document.getElementById('remaining-resources-card').style.display = 'none';
+        document.getElementById('process-details-card').style.display = 'none';
+        document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+        return;
+    }
+
     if (result.safe) {
         statusCard.classList.remove('deadlock');
         statusCard.classList.add('safe');
@@ -204,7 +242,7 @@ function analyzeDeadlock() {
     } else {
         statusCard.classList.remove('safe');
         statusCard.classList.add('deadlock');
-        statusCard.innerHTML = '✗ SYSTEM IS IN DEADLOCK STATE';
+        statusCard.innerHTML = 'System is in unsafe state';
     }
 
     // Safe sequence
@@ -216,12 +254,12 @@ function analyzeDeadlock() {
         document.getElementById('safe-sequence-card').style.display = 'none';
     }
 
-    // Deadlock processes
-    if (!result.safe && result.deadlockedProcesses.length > 0) {
+    // Unfinished processes in unsafe state
+    if (!result.safe && result.unfinishedProcesses.length > 0) {
         document.getElementById('deadlock-processes-card').style.display = 'block';
-        const deadlockedStr = result.deadlockedProcesses.map(p => `P${p}`).join(', ');
+        const deadlockedStr = result.unfinishedProcesses.map(p => `P${p}`).join(', ');
         document.getElementById('deadlock-processes').textContent = 
-            `Processes ${deadlockedStr} are in a deadlock state. These processes are waiting for resources that will never be released.`;
+            `System is in unsafe state. Unfinished processes: ${deadlockedStr}.`;
     } else {
         document.getElementById('deadlock-processes-card').style.display = 'none';
     }
@@ -248,7 +286,7 @@ function analyzeDeadlock() {
         const need = needMatrix[i].join(', ');
         const status = result.safe 
             ? (result.safeSequence.includes(i) ? '✓ Safe' : '◐ Waiting')
-            : (result.deadlockedProcesses.includes(i) ? '✗ Deadlocked' : '◐ Waiting');
+            : (result.unfinishedProcesses.includes(i) ? '◐ Unfinished' : '✓ Completed');
         
         detailsHTML += `<div class="process-item">
             <strong>Process P${i}:</strong><br>
