@@ -3,58 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deadlock Detection System</title>
+    <title>Advanced Deadlock Detection System</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>System Resource Management</h1>
-            <p>Monitor and Analyze System Deadlocks</p>
-        </div>
-
-        <div class="main-content">
-            <div class="card welcome-card">
-                <h2>Welcome to Deadlock Detection Tool</h2>
-                <p>This tool helps you analyze whether your system is in a deadlock state and provides information about available resources.</p>
-                <p>A deadlock occurs when processes are stuck indefinitely in circular wait for resources.</p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Advanced Deadlock Detection System</h1>
+                <p class="hero-subtitle">Enterprise-Grade Resource Management & Deadlock Analysis</p>
+                <a href="detector.html" class="btn btn-primary btn-lg">Start Analysis</a>
             </div>
-
-            <div class="card features-card">
-                <h3>Features:</h3>
-                <ul>
-                    <li>✓ Analyze process and resource allocation</li>
-                    <li>✓ Detect deadlock conditions</li>
-                    <li>✓ View resource availability</li>
-                    <li>✓ Get process termination recommendations</li>
-                </ul>
-            </div>
-
-            <div class="card action-card">
-                <h3>Get Started</h3>
-                <p>Click the button below to analyze your system for deadlocks:</p>
-                <a href="detector.html" class="btn btn-primary">
-                    Open Deadlock Detector
-                </a>
-            </div>
-
-            <div class="card info-card">
-                <h3>How it Works</h3>
-                <ol>
-                    <li>Enter the number of processes and resources</li>
-                    <li>Provide the allocation and maximum requirement matrices</li>
-                    <li>Specify available resources</li>
-                    <li>Click "Analyze" to detect deadlock</li>
-                    <li>View detailed results and recommendations</li>
-                </ol>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=400&fit=crop" alt="System Architecture" class="hero-img">
             </div>
         </div>
-        <footer class="footer">
-            <p>Designed by Krish Patil</p>
-        </footer>
-    </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2>Powerful Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=80&h=80&fit=crop" alt="Analysis">
+                    </div>
+                    <h3>Real-time Analysis</h3>
+                    <p>Analyze process and resource allocation in real-time with instant feedback</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=80&h=80&fit=crop" alt="Detection">
+                    </div>
+                    <h3>Deadlock Detection</h3>
+                    <p>Detect circular wait conditions and potential system deadlocks</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="https://images.unsplash.com/photo-1559523182-a284c87f1c39?w=80&h=80&fit=crop" alt="Resources">
+                    </div>
+                    <h3>Resource Tracking</h3>
+                    <p>Monitor available and allocated resources across processes</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f70d504d0?w=80&h=80&fit=crop" alt="Recommendations">
+                    </div>
+                    <h3>Smart Recommendations</h3>
+                    <p>Get actionable recommendations for process management</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <h2>Understanding Deadlock Detection</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>What is a Deadlock?</h3>
+                    <p>A deadlock is a situation in operating systems where multiple processes are blocked indefinitely, each waiting for resources held by other processes to be released. This creates a circular dependency that prevents any of the processes from progressing.</p>
+                    
+                    <h3 class="mt-3">The Four Necessary Conditions</h3>
+                    <p>A deadlock can only occur when all four conditions are present simultaneously:</p>
+                    <ul class="conditions-list">
+                        <li><strong>Mutual Exclusion:</strong> Resources cannot be shared and can only be held by one process at a time</li>
+                        <li><strong>Hold and Wait:</strong> Processes hold resources while waiting for other resources</li>
+                        <li><strong>No Preemption:</strong> Resources cannot be forcibly taken from processes</li>
+                        <li><strong>Circular Wait:</strong> A circular chain of processes exists, each waiting for resources held by the next</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=400&fit=crop" alt="Deadlock Concept">
+                </div>
+            </div>
+
+            <div class="algorithm-section">
+                <h3>How Our Detection Works</h3>
+                <p>We use the <strong>Banker's Algorithm</strong>, a resource allocation and safety check algorithm developed by E. W. Dijkstra.</p>
+                
+                <div class="algorithm-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Input Collection</h4>
+                            <p>Gather allocation matrix, maximum matrix, and available resources</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Calculate Need</h4>
+                            <p>Determine remaining resource needs (Maximum - Allocation)</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Safety Check</h4>
+                            <p>Find a safe sequence where all processes can complete</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Generate Report</h4>
+                            <p>Output system status, safe sequence, and resource availability</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Analyze Your System?</h2>
+            <p>Use our advanced deadlock detection tool to ensure your system remains stable and deadlock-free</p>
+            <a href="detector.html" class="btn btn-primary btn-lg">Open Detector Now</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>Designed by Krish Patil | Advanced Deadlock Detection System © 2024</p>
+    </footer>
 </body>
 </html>
