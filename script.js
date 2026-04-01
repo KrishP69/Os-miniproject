@@ -107,39 +107,97 @@ function buildDetailedNeedSteps(allocationMatrix, maximumMatrix, needMatrix) {
     return detailedNeedSteps;
 }
 
+function calculateAllocatedTotals(allocationMatrix) {
+    const totals = Array(numResources).fill(0);
+    for (let i = 0; i < numProcesses; i++) {
+        for (let j = 0; j < numResources; j++) {
+            totals[j] += allocationMatrix[i][j];
+        }
+    }
+    return totals;
+}
+
+function buildTotalResourceSteps(allocationMatrix, availableVector) {
+    const allocatedTotals = calculateAllocatedTotals(allocationMatrix);
+    const totalResources = allocatedTotals.map((sum, j) => sum + availableVector[j]);
+    const steps = [];
+
+    steps.push('i) Total Resources = Available + Allocated (column-wise)');
+    for (let j = 0; j < numResources; j++) {
+        const resourceLabel = `R${j}`;
+        steps.push(
+            `${resourceLabel}: Total = ${availableVector[j]} + ${allocatedTotals[j]} = ${totalResources[j]}`
+        );
+    }
+    steps.push(`Allocated Total Vector = ${formatVector(allocatedTotals)}`);
+    steps.push(`Total Resource Vector = ${formatVector(totalResources)}`);
+
+    return steps;
+}
+
+function buildNeedMatrixNotebookSteps(needMatrix) {
+    const steps = ['ii) Need Matrix'];
+    for (let i = 0; i < numProcesses; i++) {
+        steps.push(`P${i} -> ${formatVector(needMatrix[i])}`);
+    }
+    return steps;
+}
+
 function renderStepwiseSolution(needSteps, safetyResult) {
     const sections = [];
 
     sections.push(`
         <div class="step-group">
-            <h4>Section A: Need Matrix Calculation</h4>
+            <h4>i) Resource Accounting</h4>
+            <ol class="stepwise-list">
+                ${(safetyResult.totalResourceSteps || []).map((step) => `<li>${step}</li>`).join('')}
+            </ol>
+        </div>
+    `);
+
+    sections.push(`
+        <div class="step-group">
+            <h4>ii) Need Matrix</h4>
             <ol class="stepwise-list">
                 ${needSteps.map((step) => `<li>${step}</li>`).join('')}
             </ol>
         </div>
     `);
 
-    const passGroupsHTML = (safetyResult.passDetails || [])
-        .map((pass) => `
-            <div class="step-subgroup">
-                <h5>${pass.title}</h5>
-                <ol class="stepwise-list">
-                    ${pass.entries.map((entry) => `<li>${entry}</li>`).join('')}
-                </ol>
-            </div>
-        `)
+    const executionTraceHTML = (safetyResult.executionTrace || [])
+        .map((traceItem) => {
+            const comparisonLine = traceItem.comparisons.join(' | ');
+            const statusLine = traceItem.canExecute
+                ? `Need ${formatVector(traceItem.need)} <= Available ${formatVector(traceItem.workBefore)} => execute P${traceItem.process}.`
+                : `Need ${formatVector(traceItem.need)} not <= Available ${formatVector(traceItem.workBefore)} => cannot execute P${traceItem.process}.`;
+
+            const updateLine = traceItem.canExecute
+                ? `Available = ${formatVector(traceItem.workBefore)} + Allocation(P${traceItem.process}) ${formatVector(traceItem.released)} = ${formatVector(traceItem.workAfter)}`
+                : `Available remains ${formatVector(traceItem.workBefore)}`;
+
+            return `
+                <div class="step-subgroup">
+                    <h5>Pass ${traceItem.pass} - P${traceItem.process}</h5>
+                    <ol class="stepwise-list">
+                        <li>${statusLine}</li>
+                        <li>Check details: ${comparisonLine}</li>
+                        <li>${updateLine}</li>
+                    </ol>
+                </div>
+            `;
+        })
         .join('');
 
     sections.push(`
         <div class="step-group">
-            <h4>Section B: Safety Check Passes</h4>
-            ${passGroupsHTML || '<p>No safety pass details available.</p>'}
+            <h4>iii) Process-wise Safety Solving</h4>
+            ${executionTraceHTML || '<p>No process execution checks available.</p>'}
         </div>
     `);
 
     sections.push(`
         <div class="step-group">
-            <h4>Section C: Final Result</h4>
+            <h4>Final Verdict</h4>
             <ol class="stepwise-list">
                 ${(safetyResult.finalSteps || []).map((step) => `<li>${step}</li>`).join('')}
             </ol>
@@ -413,6 +471,7 @@ function isSafeState(allocationMatrix = allocation, maximumMatrix = maximum, ava
     const steps = [];
     const passDetails = [];
     const finalSteps = [];
+    const executionTrace = [];
 
     // Validate input: Maximum must be >= Allocation for every entry.
     for (let i = 0; i < numProcesses; i++) {
@@ -470,6 +529,7 @@ function isSafeState(allocationMatrix = allocation, maximumMatrix = maximum, ava
                 passEntries.push(checkEntry);
                 // Release allocated resources after process execution.
                 const released = [...allocationMatrix[i]];
+                const workBefore = [...work];
                 for (let j = 0; j < numResources; j++) {
                     work[j] += allocationMatrix[i][j];
                 }
@@ -480,10 +540,30 @@ function isSafeState(allocationMatrix = allocation, maximumMatrix = maximum, ava
                 const runEntry = `Run P${i}, release Allocation ${formatVector(released)}, updated Work = ${formatVector(work)}.`;
                 steps.push(runEntry);
                 passEntries.push(runEntry);
+                executionTrace.push({
+                    pass,
+                    process: i,
+                    canExecute: true,
+                    need: [...need[i]],
+                    workBefore,
+                    comparisons,
+                    released,
+                    workAfter: [...work]
+                });
             } else {
                 const failEntry = `Check P${i}: ${comparisons.join(' | ')} => cannot execute in this pass.`;
                 steps.push(failEntry);
                 passEntries.push(failEntry);
+                executionTrace.push({
+                    pass,
+                    process: i,
+                    canExecute: false,
+                    need: [...need[i]],
+                    workBefore: [...work],
+                    comparisons,
+                    released: Array(numResources).fill(0),
+                    workAfter: [...work]
+                });
             }
         }
 
@@ -526,7 +606,9 @@ function isSafeState(allocationMatrix = allocation, maximumMatrix = maximum, ava
         steps,
         need,
         passDetails,
-        finalSteps
+        finalSteps,
+        executionTrace,
+        totalResourceSteps: buildTotalResourceSteps(allocationMatrix, availableVector)
     };
 }
 
@@ -545,7 +627,7 @@ function analyzeDeadlock() {
 
     const result = isSafeState();
     const needMatrix = result.need;
-    const detailedNeedSteps = buildDetailedNeedSteps(allocation, maximum, needMatrix);
+    const detailedNeedSteps = buildNeedMatrixNotebookSteps(needMatrix);
 
     // Status card
     const statusCard = document.getElementById('status-card');
