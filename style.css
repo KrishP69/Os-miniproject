@@ -568,6 +568,36 @@ label {
     line-height: 1.5;
 }
 
+.stepwise-solution-block {
+    margin-top: 8px;
+}
+
+.step-group {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-soft);
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.step-group h4 {
+    margin-bottom: 8px;
+    color: var(--accent);
+}
+
+.step-subgroup {
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.step-subgroup h5 {
+    margin-bottom: 6px;
+    color: var(--text-primary);
+}
+
 .request-choice {
     display: flex;
     gap: 18px;

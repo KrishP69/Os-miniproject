@@ -92,6 +92,63 @@ function formatVector(vector) {
     return `[${vector.join(', ')}]`;
 }
 
+function buildDetailedNeedSteps(allocationMatrix, maximumMatrix, needMatrix) {
+    const detailedNeedSteps = [];
+    detailedNeedSteps.push('Step 1: Compute Need matrix using Need = Maximum - Allocation.');
+
+    for (let i = 0; i < numProcesses; i++) {
+        for (let j = 0; j < numResources; j++) {
+            detailedNeedSteps.push(
+                `Need[P${i}][R${j}] = ${maximumMatrix[i][j]} - ${allocationMatrix[i][j]} = ${needMatrix[i][j]}`
+            );
+        }
+    }
+
+    return detailedNeedSteps;
+}
+
+function renderStepwiseSolution(needSteps, safetyResult) {
+    const sections = [];
+
+    sections.push(`
+        <div class="step-group">
+            <h4>Section A: Need Matrix Calculation</h4>
+            <ol class="stepwise-list">
+                ${needSteps.map((step) => `<li>${step}</li>`).join('')}
+            </ol>
+        </div>
+    `);
+
+    const passGroupsHTML = (safetyResult.passDetails || [])
+        .map((pass) => `
+            <div class="step-subgroup">
+                <h5>${pass.title}</h5>
+                <ol class="stepwise-list">
+                    ${pass.entries.map((entry) => `<li>${entry}</li>`).join('')}
+                </ol>
+            </div>
+        `)
+        .join('');
+
+    sections.push(`
+        <div class="step-group">
+            <h4>Section B: Safety Check Passes</h4>
+            ${passGroupsHTML || '<p>No safety pass details available.</p>'}
+        </div>
+    `);
+
+    sections.push(`
+        <div class="step-group">
+            <h4>Section C: Final Result</h4>
+            <ol class="stepwise-list">
+                ${(safetyResult.finalSteps || []).map((step) => `<li>${step}</li>`).join('')}
+            </ol>
+        </div>
+    `);
+
+    return sections.join('');
+}
+
 function setMatrixValues(matrixClassPrefix, matrixData) {
     for (let i = 0; i < matrixData.length; i++) {
         for (let j = 0; j < matrixData[i].length; j++) {
@@ -354,6 +411,8 @@ function isSafeState(allocationMatrix = allocation, maximumMatrix = maximum, ava
     const finish = Array(numProcesses).fill(false);
     const safeSequence = [];
     const steps = [];
+    const passDetails = [];
+    const finalSteps = [];
 
     // Validate input: Maximum must be >= Allocation for every entry.
     for (let i = 0; i < numProcesses; i++) {
@@ -374,7 +433,8 @@ function isSafeState(allocationMatrix = allocation, maximumMatrix = maximum, ava
         }
     }
 
-    steps.push(`Initial Available (Work): ${formatVector(work)}`);
+    steps.push('Step 2: Start safety check phase.');
+    steps.push(`Initial Work = Available = ${formatVector(work)}`);
 
     let finishedCount = 0;
     let progressed;
@@ -383,7 +443,8 @@ function isSafeState(allocationMatrix = allocation, maximumMatrix = maximum, ava
     // Repeatedly scan all unfinished processes until no new process can run.
     do {
         progressed = false;
-        steps.push(`Pass ${pass}: scanning unfinished processes.`);
+        steps.push(`Pass ${pass}: scan all unfinished processes.`);
+        const passEntries = [];
 
         for (let i = 0; i < numProcesses; i++) {
             if (finish[i]) {
@@ -391,19 +452,24 @@ function isSafeState(allocationMatrix = allocation, maximumMatrix = maximum, ava
             }
 
             let canExecute = true;
+            const comparisons = [];
             // Process can run only if Need[i] <= Available(work).
             for (let j = 0; j < numResources; j++) {
+                const comparisonPassed = need[i][j] <= work[j];
+                comparisons.push(
+                    `R${j}: Need ${need[i][j]} ${comparisonPassed ? '<=' : '>'} Work ${work[j]}`
+                );
                 if (need[i][j] > work[j]) {
                     canExecute = false;
-                    break;
                 }
             }
 
             if (canExecute) {
-                steps.push(
-                    `P${i} can execute because Need ${formatVector(need[i])} <= Work ${formatVector(work)}.`
-                );
+                const checkEntry = `Check P${i}: ${comparisons.join(' | ')} => executable.`;
+                steps.push(checkEntry);
+                passEntries.push(checkEntry);
                 // Release allocated resources after process execution.
+                const released = [...allocationMatrix[i]];
                 for (let j = 0; j < numResources; j++) {
                     work[j] += allocationMatrix[i][j];
                 }
@@ -411,13 +477,20 @@ function isSafeState(allocationMatrix = allocation, maximumMatrix = maximum, ava
                 safeSequence.push(i);
                 finishedCount++;
                 progressed = true;
-                steps.push(`After completing P${i}, Work becomes ${formatVector(work)}.`);
+                const runEntry = `Run P${i}, release Allocation ${formatVector(released)}, updated Work = ${formatVector(work)}.`;
+                steps.push(runEntry);
+                passEntries.push(runEntry);
             } else {
-                steps.push(
-                    `P${i} cannot execute now because Need ${formatVector(need[i])} is not <= Work ${formatVector(work)}.`
-                );
+                const failEntry = `Check P${i}: ${comparisons.join(' | ')} => cannot execute in this pass.`;
+                steps.push(failEntry);
+                passEntries.push(failEntry);
             }
         }
+
+        passDetails.push({
+            title: `Pass ${pass}`,
+            entries: passEntries
+        });
         pass++;
     } while (progressed && finishedCount < numProcesses);
 
@@ -429,11 +502,17 @@ function isSafeState(allocationMatrix = allocation, maximumMatrix = maximum, ava
     }
 
     if (finishedCount === numProcesses) {
-        steps.push(`All processes can finish. Safe sequence is ${safeSequence.map((p) => `P${p}`).join(' -> ')}.`);
+        const finalStep1 = 'Step 3: All processes finish successfully.';
+        const finalStep2 = `Safe sequence: ${safeSequence.map((p) => `P${p}`).join(' -> ')}.`;
+        steps.push(finalStep1);
+        steps.push(finalStep2);
+        finalSteps.push(finalStep1, finalStep2);
     } else {
-        steps.push(
-            `No further process can execute. Unfinished processes: ${unfinishedProcesses.map((p) => `P${p}`).join(', ')}.`
-        );
+        const finalStep1 = 'Step 3: Safety check failed before all processes could finish.';
+        const finalStep2 = `No further process can execute. Unfinished processes: ${unfinishedProcesses.map((p) => `P${p}`).join(', ')}.`;
+        steps.push(finalStep1);
+        steps.push(finalStep2);
+        finalSteps.push(finalStep1, finalStep2);
     }
 
     return {
@@ -445,7 +524,9 @@ function isSafeState(allocationMatrix = allocation, maximumMatrix = maximum, ava
         work,
         finish,
         steps,
-        need
+        need,
+        passDetails,
+        finalSteps
     };
 }
 
@@ -464,6 +545,7 @@ function analyzeDeadlock() {
 
     const result = isSafeState();
     const needMatrix = result.need;
+    const detailedNeedSteps = buildDetailedNeedSteps(allocation, maximum, needMatrix);
 
     // Status card
     const statusCard = document.getElementById('status-card');
@@ -498,9 +580,7 @@ function analyzeDeadlock() {
 
     // Step-wise solution
     document.getElementById('stepwise-card').style.display = 'block';
-    document.getElementById('stepwise-solution').innerHTML = result.steps
-        .map((step) => `<li>${step}</li>`)
-        .join('');
+    document.getElementById('stepwise-solution').innerHTML = renderStepwiseSolution(detailedNeedSteps, result);
 
     // Unfinished processes in unsafe state
     if (!result.safe && result.unfinishedProcesses.length > 0) {
