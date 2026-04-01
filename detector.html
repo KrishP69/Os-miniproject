@@ -43,6 +43,16 @@
 
                 <button class="btn btn-secondary" onclick="generateMatrices()">Generate Input Fields</button>
 
+                <div class="matrix-section preset-section">
+                    <h3>Quick Sample Presets</h3>
+                    <p>Use one-click sample data to test safe, unsafe, or invalid input behavior.</p>
+                    <div class="preset-buttons">
+                        <button class="btn btn-secondary" onclick="loadPreset('safe')">Load Safe Case</button>
+                        <button class="btn btn-secondary" onclick="loadPreset('unsafe')">Load Unsafe Case</button>
+                        <button class="btn btn-secondary" onclick="loadPreset('invalid')">Load Invalid Case</button>
+                    </div>
+                </div>
+
                 <div id="matrices-container" style="display:none;">
                     <!-- Allocation Matrix -->
                     <div class="matrix-section">
@@ -77,6 +87,16 @@
                     <p id="safe-sequence"></p>
                 </div>
 
+                <div id="need-matrix-card" style="display:none;" class="card">
+                    <h3>Need Matrix (Tabular Form)</h3>
+                    <div id="need-matrix"></div>
+                </div>
+
+                <div id="stepwise-card" style="display:none;" class="card">
+                    <h3>Step-wise Solution</h3>
+                    <ol id="stepwise-solution" class="stepwise-list"></ol>
+                </div>
+
                 <div id="remaining-resources-card" style="display:none;" class="card">
                     <h3>Remaining Resources</h3>
                     <div id="remaining-resources"></div>
@@ -90,6 +110,33 @@
                 <div id="deadlock-processes-card" style="display:none;" class="card deadlock-card">
                     <h3>Processes in Deadlock</h3>
                     <p id="deadlock-processes"></p>
+                </div>
+
+                <div id="request-option-card" style="display:none;" class="card">
+                    <h3>Additional Process Request</h3>
+                    <p>Do you want to request resources for any process?</p>
+                    <div class="request-choice">
+                        <label>
+                            <input type="radio" name="wantsRequest" value="yes"> Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="wantsRequest" value="no" checked> No
+                        </label>
+                    </div>
+
+                    <div id="request-form-container" style="display:none;">
+                        <div class="form-group">
+                            <label for="request-process">Select Process:</label>
+                            <select id="request-process"></select>
+                        </div>
+                        <div class="matrix-section">
+                            <h3>Requested Resources</h3>
+                            <div id="request-vector-inputs"></div>
+                        </div>
+                        <button class="btn btn-secondary" onclick="evaluateAdditionalRequest()">Check Request</button>
+                    </div>
+
+                    <div id="request-result" class="request-result"></div>
                 </div>
 
                 <button class="btn btn-secondary" onclick="resetForm()">Analyze Again</button>
